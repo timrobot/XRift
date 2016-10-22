@@ -25,7 +25,7 @@ feature.o: feature.cpp
 ovr.o: ovr.cpp
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-test.o: test2.cpp
+test.o: split.cpp
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 ovr: $(OBJS)
