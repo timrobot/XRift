@@ -6,5 +6,5 @@ TODO:
 - [ ] oculus rift barrel distortion CPU
 - [ ] shared mem from record my desktop
 - [ ] shared mem to a test program
-- [ ] image slicing
+- [x] image slicing
 - [ ] UI
