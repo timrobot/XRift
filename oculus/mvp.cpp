@@ -49,18 +49,22 @@ int main(int argc, const char** argv){
   // END COPYING
 
   cv::Mat img(data->height, data->width, CV_8UC4);
-  img = 0;
-  cv::Mat bgr(data->height, 1600, CV_8UC3);
-  bgr = 0;
+  memset(img.data, 0, img.rows * img.cols * 3);
+  //img = 0;
+  cv::Mat bgr(data->height, 1920, CV_8UC3);
+  memset(bgr.data, 0, bgr.rows * bgr.cols * 3);
+  //bgr = 0;
 
   int height = bgr.rows;
   int width = bgr.cols;
   int crop = width/20;
 
   cv::Mat leftImage(800, 640, CV_8UC3);
-  leftImage = 0;
+  memset(leftImage.data, 0, leftImage.rows * leftImage.cols * 3);
+  //leftImage = 0;
   cv::Mat rightImage(800, 640, CV_8UC3);
-  rightImage = 0;
+  memset(rightImage.data, 0, rightImage.rows * rightImage.cols * 3);
+  //rightImage = 0;
 
   printf("Image dimensions: height=%d width=%d crop=%d\n", height, width, crop);
 
@@ -72,7 +76,7 @@ int main(int argc, const char** argv){
     memcpy(img.data, data->data, SHMDATASIZE);
 
     // restrict range
-    cv::Mat bgra(img, cv::Range::all(), cv::Range(0, 1600));
+    cv::Mat bgra(img, cv::Range::all(), cv::Range(0, 1920));
 
     // convert the color
     cv::cvtColor(img, bgr, CV_BGRA2BGR);
