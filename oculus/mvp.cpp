@@ -66,14 +66,18 @@ int main(int argc, const char** argv){
 
   while(true){
 
+    // copy it from shm
     img.rows = data->height;
     img.cols = data->width;
     memcpy(img.data, data->data, SHMDATASIZE);
 
+    // restrict range
     cv::Mat bgra(img, cv::Range::all(), cv::Range(0, 1600));
 
+    // convert the color
     cv::cvtColor(img, bgr, CV_BGRA2BGR);
 
+    // convert to sub images
     cv::Mat subImage1(bgr, cv::Range::all(), cv::Range(0, width-crop)); // Mat dst(Mat src, yrange, xrange)
     cv::Mat subImage2(bgr, cv::Range::all(), cv::Range(crop, width));
 
