@@ -66,8 +66,8 @@ int main(int argc, const char** argv){
     Mat bgr;
     cv::cvtColor(img, bgr, CV_BGRA2BGR);
 
-    cv::Mat subImage1(img, cv::Range::all(), cv::Range(0, width-crop)); // Mat dst(Mat src, yrange, xrange)
-    cv::Mat subImage2(img, cv::Range::all(), cv::Range(crop, width));
+    cv::Mat subImage1(bgr, cv::Range::all(), cv::Range(0, width-crop)); // Mat dst(Mat src, yrange, xrange)
+    cv::Mat subImage2(bgr, cv::Range::all(), cv::Range(crop, width));
 
     // find the new dimensions to match up to the oculus rift ratio
     int new_width = 500; // 9 / 10 of the original width
