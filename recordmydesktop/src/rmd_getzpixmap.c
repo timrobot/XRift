@@ -44,6 +44,7 @@ int rmdGetZPixmap(Display *dpy,
                   int y,
                   int width,
                   int height){
+  printf("rmdGetZPixmap()\n");
     xGetImageReply reply;
     xGetImageReq *request;
     long nbytes;
@@ -78,6 +79,7 @@ int rmdGetZPixmapSHM(Display *dpy,
                      int y,
                      int width,
                      int height){
+  printf("rmdGetZPixmapSHM()\n");
     xShmGetImageReply reply;
     xShmGetImageReq *request=NULL;
     long nbytes;
