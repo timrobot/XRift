@@ -25,7 +25,7 @@ feature.o: feature.cpp
 ovr.o: ovr.cpp
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-test.o: split.cpp
+test.o: full_pipeline.cpp
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 ovr: $(OBJS)
