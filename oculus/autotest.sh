@@ -3,12 +3,12 @@
 #just in case
 ipcrm -M 9000 # this is the key
 
-../../recordmydesktop/src/recordmydesktop &
+../recordmydesktop/src/recordmydesktop &
 pid1=$!
 sleep 1
-./sink &
+./xrift &
 pid2=$!
-sleep 5
+sleep 120
 kill -9 $pid2
 sleep 1
 kill -9 $pid1

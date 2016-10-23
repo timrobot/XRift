@@ -46,6 +46,22 @@
 #include <stdlib.h>
 
 
+/** HACK: Try this out **/
+
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "shmdata.h"
+#include "color.h"
+
+static int flag;
+shmdata * data;
+
+/** UNHACK **/
+
 #define AVG_4_PIXELS(data_array,width_img,k_tm,i_tm,offset)\
     ((data_array[(k_tm*width_img+i_tm)*RMD_ULONG_SIZE_T+offset]+\
     data_array[((k_tm-1)*width_img+i_tm)*RMD_ULONG_SIZE_T+offset]+\
@@ -200,6 +216,46 @@ static int rmdFirstFrame(ProgData *pdata,
                          XImage **image,
                          XShmSegmentInfo *shminfo,
                          char **pxl_data) {
+	if (flag == 0)
+	{
+	  key_t key;
+	  int shmflg;
+	  int shmid;
+	  int size;
+
+	  key = 9000;
+	  size = sizeof(shmdata);
+	  shmflg = 0666 | IPC_CREAT;
+
+	  // get an shm
+	  if ((shmid = shmget(key, size, shmflg)) == -1) {
+		print_error("[SOURCE] shmget failed, trying again");
+		struct shmid_ds sds;
+		shmctl(shmid, IPC_RMID, &sds);
+		if ((shmid = shmget(key, size, shmflg)) == -1) {
+		  print_error("[SOURCE] shmget failed again, failing");
+		  //return 1;
+		} else {
+		  print_debug("[SOURCE] Got an shm!");
+		}
+	  } else {
+		print_debug("[SOURCE] Got an shm!");
+	  }
+
+	  // attach the shm to this process
+	  data = (shmdata *)shmat(shmid, data, shmflg);
+	  if (data == (shmdata *)-1) {
+		print_error("[SOURCE] failed to attach");
+		//return 1;
+	  } else {
+		print_debug("[SOURCE] found character stream");
+	  }
+    data->width = 1600 + 1280;
+    data->height = 900;
+	  flag = 1;
+	}
+
+
 
     if((pdata->args.noshared)){
 
@@ -253,6 +309,7 @@ static int rmdFirstFrame(ProgData *pdata,
                      pdata->brwin.rrect.x,
                      pdata->brwin.rrect.y,
                      AllPlanes);
+        //printf("XShmGetImage() :: 256\n"); // HACK COMMENT
     }
 
     UPDATE_YUV_BUFFER((&pdata->enc_data->yuv),
@@ -580,6 +637,15 @@ void *rmdGetFrame(ProgData *pdata){
                             ((!img_sel)?image:image_back),
                             (temp_brwin.rrect.x),
                             (temp_brwin.rrect.y),AllPlanes);
+              //printf("XShmGetImage() :: 584\n");
+              //
+
+
+                /** HACK HERE **/
+
+                memcpy(data->data, image->data, SHMDATASIZE);   /** IMPORTANT **/
+
+                /** UNHACK **/
             }
             if(pdata->args.noshared){
                 rmdGetZPixmap( pdata->dpy,

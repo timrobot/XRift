@@ -24,53 +24,16 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
+
 #include "config.h"
 #include "rmd_encode_image_buffer.h"
-#include "shmdata.h"
 
 #include "rmd_types.h"
 
 #include <errno.h>
 
-static int flag;
-shmdata * data;
 void *rmdEncodeImageBuffer(ProgData *pdata){
-	if (flag == 0)
-	{
-	  key_t key;
-	  int shmflg;
-	  int shmid;
-	  int size;
 
-	  key = 9000;
-	  size = sizeof(shmdata);
-	  shmflg = 0666 | IPC_CREAT;
-
-	  // get an shm
-	  if ((shmid = shmget(key, size, shmflg)) == -1) {
-		print_error("[SOURCE] shmget failed, trying again");
-		struct shmid_ds sds;
-		shmctl(shmid, IPC_RMID, &sds);
-		if ((shmid = shmget(key, size, shmflg)) == -1) {
-		  print_error("[SOURCE] shmget failed again, failing");
-		  //return 1;
-		} else {
-		  print_debug("[SOURCE] Got an shm!");
-		}
-	  } else {
-		print_debug("[SOURCE] Got an shm!");
-	  }
-
-	  // attach the shm to this process
-	  data = (shmdata *)shmat(shmid, data, shmflg);
-	  if (data == (shmdata *)-1) {
-		print_error("[SOURCE] failed to attach");
-		//return 1;
-	  } else {
-		print_debug("[SOURCE] found character stream");
-	  }
-	  flag = 1;
-	}
     pdata->th_encoding_clean=0;
     while(pdata->running){
         pdata->th_enc_thread_waiting=1;
@@ -85,9 +48,9 @@ void *rmdEncodeImageBuffer(ProgData *pdata){
             pthread_cond_wait(&pdata->pause_cond, &pdata->pause_mutex);
             pthread_mutex_unlock(&pdata->pause_mutex);
         }
-        pthread_mutex_lock(&pdata->yuv_mutex);
-        memcpy(data, &pdata->enc_data->yuv, 1980*1080*2);  
-        pthread_mutex_unlock(&pdata->yuv_mutex);
+        //pthread_mutex_lock(&pdata->yuv_mutex);
+        //pthread_mutex_unlock(&pdata->yuv_mutex);
+        //printf("UNLOCKED\n");
         //printf("Got encode image buf\n");
         //pthread_mutex_unlock(&pdata->yuv_mutex);
 

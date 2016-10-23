@@ -82,7 +82,7 @@ recordmydesktop-rmd_get_frame.o: rmd_get_frame.c \
  /usr/include/x86_64-linux-gnu/sys/ipc.h \
  /usr/include/x86_64-linux-gnu/bits/ipctypes.h \
  /usr/include/x86_64-linux-gnu/bits/ipc.h \
- /usr/include/x86_64-linux-gnu/bits/shm.h
+ /usr/include/x86_64-linux-gnu/bits/shm.h shmdata.h color.h
 
 /usr/include/stdc-predef.h:
 
@@ -343,3 +343,7 @@ rmd_macro.h:
 /usr/include/x86_64-linux-gnu/bits/ipc.h:
 
 /usr/include/x86_64-linux-gnu/bits/shm.h:
+
+shmdata.h:
+
+color.h:
