@@ -39,7 +39,7 @@ int main(int argc, const char** argv){
   }
 
   // attach the shm to this process
-  shmdata *data = (shmdata *)shmat(shmid, data, shmflg);
+  shmdata *data = (shmdata *)shmat(shmid, NULL, shmflg);
   if (data == (shmdata *)-1) {
     print_error("[SINK] failed to attach");
     return 1;
