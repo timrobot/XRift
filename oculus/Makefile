@@ -5,10 +5,10 @@ CFLAGS = `pkg-config --cflags opencv` -std=c++11 -O2 \
 	-D_FORCE_INLINES \
 	-D__STRICT_ANSI__
 LIBS = `pkg-config --libs opencv` -larmadillo -lpthread -lstdc++
-OBJS = highgui.o imgproc.o xrift.o \
-			 gcube.o gpu_util.o
+OBJS = highgui.o imgproc.o xrift.o ovr.o \
+	gcube.o gpu_util.o
 
-all: $(OBJS) xrift
+all: $(OBJS) xrift test
 
 gcube.o: gcube.cu
 	$(CXX) $(CFLAGS) -o $@ -c $<
@@ -25,7 +25,7 @@ imgproc.o: imgproc.cu
 feature.o: feature.cpp
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-ovr.o: ovr.cpp
+ovr.o: ovr.cu
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 test.o: full_pipeline.cpp
@@ -39,6 +39,9 @@ xrift: $(OBJS)
 
 xrift.o: mvp.cu
 	$(CXX) $(CFLAGS) -o $@ -c $<
+
+test: test.cu
+	$(CXX) $(CFLAGS) -o $@ $^ $(LIBS)
 
 clean:
 	rm -f $(OBJS) ovr

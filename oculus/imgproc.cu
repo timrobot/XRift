@@ -160,8 +160,8 @@ void gpu_gauss2(gcube &DX, gcube &DY, int n, double sigma2) {
 }
 
 void gpu_gradient2(const gcube &F, gcube &DX, gcube &DY) {
-  DX = gpu_edgeSobel2(F, false);
-  DY = gpu_edgeSobel2(F, true);
+  //DX = gpu_edgeSobel2(F, false);
+  //DY = gpu_edgeSobel2(F, true);
 }
 
 __global__ void GPU_nmm2(float *G, float *F, float *Fx, float *Fy, int n_rows, int n_cols) {

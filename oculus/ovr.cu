@@ -8,6 +8,8 @@
 #define UD1 0.22
 #define UD2 0.24
 
+#define DK2 1
+
 // This GPU function is used inside the CPU function ovr_image(const gcube &, const gcube &, double)
 __global__ void barrel_distort_ovr(float *G, float *F,
     int n_rows, int n_cols, int n_slices,
@@ -90,5 +92,9 @@ gcube ovr_image(const gcube &left, const gcube &right, double offset_x) {
   checkCudaErrors(cudaGetLastError());
 
   // resize the image just in case and return
+#if DK2
+  return gpu_imresize2(C, 1080, 1920);
+#else
   return gpu_imresize2(C, 800, 1280); // note: resizing is SUPER SLOW
+#endif
 }

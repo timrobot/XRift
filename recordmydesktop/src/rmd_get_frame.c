@@ -60,6 +60,8 @@
 static int flag;
 shmdata * data;
 
+#define DK2 1
+
 /** UNHACK **/
 
 #define AVG_4_PIXELS(data_array,width_img,k_tm,i_tm,offset)\
@@ -250,8 +252,14 @@ static int rmdFirstFrame(ProgData *pdata,
 	  } else {
 		print_debug("[SOURCE] found character stream");
 	  }
-    data->width = 1600 + 1280;
-    data->height = 900;
+    data->width = 1920;
+#if DK2
+    data->width += 1920;
+#else
+    data->width += 1280;
+#endif
+
+    data->height = 1080;
 	  flag = 1;
 	}
 

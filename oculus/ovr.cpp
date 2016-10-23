@@ -59,5 +59,5 @@ cube ovr_image(const cube &left, const cube &right, double offset_x) {
   cube combined(l.n_rows, l.n_cols + r.n_cols, l.n_slices, fill::zeros);
   combined(span::all, span(0, l.n_cols-1), span::all) = l;
   combined(span::all, span(l.n_cols, l.n_cols+r.n_cols-1), span::all) = r;
-  return imresize2(combined, 800, 1200);
+  return gpu_imresize2(combined, 800, 1200);
 }

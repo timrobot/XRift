@@ -437,7 +437,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/grippier/Downloads/record_my_desktop_src/recordmydesktop-trunk-modified-copy/recordmydesktop'
+ac_pwd='/home/ishan/xriftstuff/XRift/recordmydesktop'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -667,12 +667,12 @@ S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /home/grippier/Downloads/record_my_desktop_src/recordmydesktop-trunk-modified-copy/recordmydesktop/install-sh"
-S["MAKEINFO"]="${SHELL} /home/grippier/Downloads/record_my_desktop_src/recordmydesktop-trunk-modified-copy/recordmydesktop/missing makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/grippier/Downloads/record_my_desktop_src/recordmydesktop-trunk-modified-copy/recordmydesktop/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /home/grippier/Downloads/record_my_desktop_src/recordmydesktop-trunk-modified-copy/recordmydesktop/missing automake-1.15"
-S["AUTOCONF"]="${SHELL} /home/grippier/Downloads/record_my_desktop_src/recordmydesktop-trunk-modified-copy/recordmydesktop/missing autoconf"
-S["ACLOCAL"]="${SHELL} /home/grippier/Downloads/record_my_desktop_src/recordmydesktop-trunk-modified-copy/recordmydesktop/missing aclocal-1.15"
+S["install_sh"]="${SHELL} /home/ishan/xriftstuff/XRift/recordmydesktop/install-sh"
+S["MAKEINFO"]="${SHELL} /home/ishan/xriftstuff/XRift/recordmydesktop/missing makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/ishan/xriftstuff/XRift/recordmydesktop/missing autoheader"
+S["AUTOMAKE"]="${SHELL} /home/ishan/xriftstuff/XRift/recordmydesktop/missing automake-1.15"
+S["AUTOCONF"]="${SHELL} /home/ishan/xriftstuff/XRift/recordmydesktop/missing autoconf"
+S["ACLOCAL"]="${SHELL} /home/ishan/xriftstuff/XRift/recordmydesktop/missing aclocal-1.15"
 S["VERSION"]="0.3.8.1"
 S["PACKAGE"]="recordmydesktop"
 S["CYGPATH_W"]="echo"
@@ -683,7 +683,7 @@ S["INSTALL_PROGRAM"]="${INSTALL}"
 S["target_alias"]=""
 S["host_alias"]=""
 S["build_alias"]=""
-S["LIBS"]="-lasound -lpthread -ltheora -logg -lvorbisenc -lvorbisfile -lvorbis -lXdamage -lXfixes -lXext -lX11 -lSM -lICE -lpopt -lz -lm "
+S["LIBS"]="-lpthread -ltheora -logg -lvorbisenc -lvorbisfile -lvorbis -lXdamage -lXfixes -lXext -lX11 -lSM -lICE -lpopt -lz -lm "
 S["ECHO_T"]=""
 S["ECHO_N"]="-n"
 S["ECHO_C"]=""
@@ -802,7 +802,6 @@ D["HAVE_LIBVORBISENC"]=" 1"
 D["HAVE_LIBOGG"]=" 1"
 D["HAVE_LIBTHEORA"]=" 1"
 D["HAVE_LIBPTHREAD"]=" 1"
-D["HAVE_LIBASOUND"]=" 1"
 D["HAVE_STDLIB_H"]=" 1"
 D["HAVE_MALLOC"]=" 1"
   for (key in D) D_is_set[key] = 1

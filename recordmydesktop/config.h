@@ -18,7 +18,7 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the `asound' library (-lasound). */
-#define HAVE_LIBASOUND 1
+/* #undef HAVE_LIBASOUND */
 
 /* Define to 1 if you have the `ICE' library (-lICE). */
 #define HAVE_LIBICE 1
