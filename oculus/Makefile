@@ -1,8 +1,11 @@
 #CXX = g++
 CXX = nvcc
-CFLAGS = `pkg-config --cflags opencv` -std=c++11 -O2 -pthread 
-LIBS = `pkg-config --libs opencv` -larmadillo
-OBJS = highgui.o imgproc.o ovr.o xrift.o \
+CFLAGS = `pkg-config --cflags opencv` -std=c++11 -O2 \
+	-D_MWAITXINTRIN_H_INCLUDED \
+	-D_FORCE_INLINES \
+	-D__STRICT_ANSI__
+LIBS = `pkg-config --libs opencv` -larmadillo -lpthread -lstdc++
+OBJS = highgui.o imgproc.o xrift.o \
 			 gcube.o gpu_util.o
 
 all: $(OBJS) xrift
