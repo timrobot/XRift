@@ -1,11 +1,11 @@
 CXX = g++
 #CXX = nvcc
-CFLAGS = `pkg-config --cflags opencv` -std=c++11 -O3 -g
+CFLAGS = `pkg-config --cflags opencv` -std=c++11 -O2 -pthread 
 LIBS = `pkg-config --libs opencv` -larmadillo
-OBJS = highgui.o imgproc.o feature.o ovr.o test.o \
+OBJS = highgui.o imgproc.o feature.o ovr.o xrift.o \
 			 #gcube.o gpu_util.o
 
-all: $(OBJS) ovr
+all: $(OBJS) xrift
 
 gcube.o: gcube.cu
 	$(CXX) $(CFLAGS) -o $@ -c $<
@@ -30,6 +30,12 @@ test.o: full_pipeline.cpp
 
 ovr: $(OBJS)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LIBS)
+
+xrift: $(OBJS)
+	$(CXX) $(CFLAGS) -o $@ $^ $(LIBS)
+
+xrift.o: mvp.cpp
+	$(CXX) $(CFLAGS) -o $@ -c $<
 
 clean:
 	rm -f $(OBJS) ovr
