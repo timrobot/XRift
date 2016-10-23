@@ -63,6 +63,9 @@ int main(int argc, const char** argv){
     img.data = data->data;
     memcpy(data->data, img.data, SHMDATASIZE);
 
+    Mat bgr;
+    cv::cvtColor(img, bgr, CVT_BGRA2BGR);
+
     cv::Mat subImage1(img, cv::Range::all(), cv::Range(0, width-crop)); // Mat dst(Mat src, yrange, xrange)
     cv::Mat subImage2(img, cv::Range::all(), cv::Range(crop, width));
 
