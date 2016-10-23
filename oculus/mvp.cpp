@@ -64,6 +64,11 @@ int main(int argc, const char** argv){
     memcpy(data->data, img.data, SHMDATASIZE);
     cv::imshow("test", img);
 
+
+    waitKey(30);
+    continue;
+    // hack test
+
     Mat bgr;
     cv::cvtColor(img, bgr, CV_BGRA2BGR);
 
