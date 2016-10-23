@@ -8,7 +8,7 @@ pid1=$!
 sleep 1
 ./xrift &
 pid2=$!
-sleep 5
+sleep 120
 kill -9 $pid2
 sleep 1
 kill -9 $pid1

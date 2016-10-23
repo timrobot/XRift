@@ -250,7 +250,7 @@ static int rmdFirstFrame(ProgData *pdata,
 	  } else {
 		print_debug("[SOURCE] found character stream");
 	  }
-    data->width = 1600;
+    data->width = 1600 + 1280;
     data->height = 900;
 	  flag = 1;
 	}

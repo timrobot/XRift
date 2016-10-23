@@ -56,7 +56,7 @@ cube barrel_distort_rgb(const cube &F, double offset_x) {
 cube ovr_image(const cube &left, const cube &right, double offset_x) {
   cube l = barrel_distort_rgb(left, -offset_x);
   cube r = barrel_distort_rgb(right, offset_x);
-  cube combined(l.n_rows, l.n_cols + r.n_cols, l.n_slices);
+  cube combined(l.n_rows, l.n_cols + r.n_cols, l.n_slices, fill::zeros);
   combined(span::all, span(0, l.n_cols-1), span::all) = l;
   combined(span::all, span(l.n_cols, l.n_cols+r.n_cols-1), span::all) = r;
   return imresize2(combined, 800, 1200);

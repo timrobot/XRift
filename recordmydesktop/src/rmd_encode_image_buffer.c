@@ -49,7 +49,6 @@ void *rmdEncodeImageBuffer(ProgData *pdata){
             pthread_mutex_unlock(&pdata->pause_mutex);
         }
         //pthread_mutex_lock(&pdata->yuv_mutex);
-        //memcpy(data->data, fauxdata, 1600*900 * 4);   /** IMPORTANT **/
         //pthread_mutex_unlock(&pdata->yuv_mutex);
         //printf("UNLOCKED\n");
         //printf("Got encode image buf\n");

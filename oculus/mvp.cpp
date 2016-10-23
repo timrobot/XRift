@@ -18,7 +18,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-using namespace cv; // this might break something
+using namespace std;
 
 int main(int argc, const char** argv){
   key_t key;
@@ -48,11 +48,19 @@ int main(int argc, const char** argv){
   }
   // END COPYING
 
-  Mat img(data->width, data->height, CV_8UC4);
+  cv::Mat img(data->height, data->width, CV_8UC4);
+  img = 0;
+  cv::Mat bgr(data->height, 1600, CV_8UC3);
+  bgr = 0;
 
-  int height = img.rows;
-  int width = img.cols;
+  int height = bgr.rows;
+  int width = bgr.cols;
   int crop = width/20;
+
+  cv::Mat leftImage(800, 640, CV_8UC3);
+  leftImage = 0;
+  cv::Mat rightImage(800, 640, CV_8UC3);
+  rightImage = 0;
 
   printf("Image dimensions: height=%d width=%d crop=%d\n", height, width, crop);
 
@@ -60,16 +68,10 @@ int main(int argc, const char** argv){
 
     img.rows = data->height;
     img.cols = data->width;
-    img.data = data->data;
-    memcpy(data->data, img.data, SHMDATASIZE);
-    cv::imshow("test", img);
+    memcpy(img.data, data->data, SHMDATASIZE);
 
+    cv::Mat bgra(img, cv::Range::all(), cv::Range(0, 1600));
 
-    waitKey(30);
-    continue;
-    // hack test
-
-    Mat bgr;
     cv::cvtColor(img, bgr, CV_BGRA2BGR);
 
     cv::Mat subImage1(bgr, cv::Range::all(), cv::Range(0, width-crop)); // Mat dst(Mat src, yrange, xrange)
@@ -85,14 +87,12 @@ int main(int argc, const char** argv){
     cv::resize(subImage2, resizedRight, cv::Size(new_width, new_height));
 
     // create the left image
-    cv::Mat leftImage(800, 640, CV_8UC3);
     int xoffset = 640 - new_width;          // width = 1280
     int yoffset = 400 - (new_height / 2);   // height = 800
 
     resizedLeft.copyTo(leftImage(cv::Rect(xoffset, yoffset, new_width, new_height)));
 
     // create the right image
-    cv::Mat rightImage(800, 640, CV_8UC3);
     resizedRight.copyTo(rightImage(cv::Rect(0, yoffset, new_width, new_height)));
 
     arma::cube limg = cvt_opencv2arma(leftImage) / 255.0;
@@ -110,14 +110,6 @@ int main(int argc, const char** argv){
     }
   }
 
-  // for(;;){
-  //   combined = ovr_image(limg, rimg, offset);
-  //   disp_image("hud", combined);
-  //   if(disp_keyPressed() >= 0)
-  //   {
-  //     break;
-  //   }
-  // }
   return 0;
 }
 

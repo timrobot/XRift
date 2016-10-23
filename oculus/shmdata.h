@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-#define SHMDATASIZE (1600 * 900 * 4) // this is the video size [HACK]
+#define SHMDATASIZE ((1600 + 1280) * 900 * 4) // this is the video size [HACK]
 
 typedef struct {
   int width;
