@@ -62,6 +62,7 @@ int main(int argc, const char** argv){
     img.cols = data->width;
     img.data = data->data;
     memcpy(data->data, img.data, SHMDATASIZE);
+    cv::imshow("test", img);
 
     Mat bgr;
     cv::cvtColor(img, bgr, CV_BGRA2BGR);
