@@ -10,10 +10,10 @@
 extern "C" {
 #endif
 
-#define DK2 1
+#define DK2 0
 
 #if DK2
-#define SHMDATASIZE ((1920 + 1920) * 1080 * 4)
+#define SHMDATASIZE ((1920 + 1080) * 1920 * 4)
 #else
 #define SHMDATASIZE ((1920 + 1280) * 1080 * 4) // this is the video size [HACK]
 #endif

@@ -60,7 +60,7 @@
 static int flag;
 shmdata * data;
 
-#define DK2 1
+#define DK2 0
 
 /** UNHACK **/
 
@@ -252,14 +252,14 @@ static int rmdFirstFrame(ProgData *pdata,
 	  } else {
 		print_debug("[SOURCE] found character stream");
 	  }
-    data->width = 1920;
 #if DK2
-    data->width += 1920;
+    data->width = 1920;
+    data->height = 1080;
 #else
-    data->width += 1280;
+    data->width = 1920 + 1280;
+    data->height = 1080;
 #endif
 
-    data->height = 1080;
 	  flag = 1;
 	}
 

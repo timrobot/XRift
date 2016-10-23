@@ -2,13 +2,19 @@
 #include "imgproc.h"
 #include "gpu_util.h"
 
+#define DK2 0
+
+#if DK2
+#define UD0 1.0
+#define UD1 0.24
+#define UD2 0.4
+#else
 //const float u_distortion[4] = { 1.0, -0.22, -0.24, 0 };
 // preprogrammed constants
 #define UD0 1.0
 #define UD1 0.22
 #define UD2 0.24
-
-#define DK2 1
+#endif
 
 // This GPU function is used inside the CPU function ovr_image(const gcube &, const gcube &, double)
 __global__ void barrel_distort_ovr(float *G, float *F,

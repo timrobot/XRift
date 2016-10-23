@@ -3,12 +3,13 @@
 #just in case
 ipcrm -M 9000 # this is the key
 
-../recordmydesktop/src/recordmydesktop &
+cd /home/ishan/xriftstuff/XRift
+./recordmydesktop/src/recordmydesktop &
 pid1=$!
 sleep 1
-./xrift &
+./oculus/xrift &
 pid2=$!
-sleep 12
+sleep 10000000
 kill -9 $pid2
 sleep 1
 kill -9 $pid1

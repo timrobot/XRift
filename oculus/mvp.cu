@@ -26,6 +26,9 @@ using namespace std;
 
 void preprocessSHM(int *img, gcube &bgr);
 void subplace(gcube &subimage, gcube &orig, int left, int top);
+void dk2_rotate(gcube &dst, gcube &src);
+
+#define DK2 0
 
 static int stopsig;
 void stopme(int signo) {
@@ -74,35 +77,42 @@ int main(int argc, const char *argv[]) {
    */
 
 #if DK2
-  gcube bgr(data->height, data->width - 1920, 3);
+  gcube bgr(data->height, data->width, 3);
 #else
   gcube bgr(data->height, data->width - 1280, 3); // removes the excess width from DK1
 #endif
 
   /** get the subimages
    */
-  size_t new_width = 500;
-  size_t new_height = new_width * bgr.n_rows / bgr.n_cols;
-  size_t crop = 20;//new_width / 20;
-  size_t subimage_width = new_width - crop;
-  size_t subimage_height = new_height;
 
 #if DK2
+  size_t new_width = 864;
+  size_t new_height = new_width * bgr.n_rows / bgr.n_cols;
+  size_t crop = 0;
+  size_t subimage_width = new_width - crop;
+  size_t subimage_height = new_height;
   size_t xoffset = 960 - subimage_width;
   size_t yoffset = 540 - (subimage_height / 2) - 25;
 
   gcube limg(1080, 960, 3, gfill::zeros);
   gcube rimg(1080, 960, 3, gfill::zeros);
   gcube combined(1080, 1920, 3, gfill::zeros);
+  gcube rotation(1920, 1080, 3, gfill::zeros);
 
 #else
 
+  size_t new_width = 500;
+  size_t new_height = new_width * bgr.n_rows / bgr.n_cols;
+  size_t crop = 20;//new_width / 20;
+  size_t subimage_width = new_width - crop;
+  size_t subimage_height = new_height;
   size_t xoffset = 640 - subimage_width;
   size_t yoffset = 400 - (subimage_height / 2) - 25; // hacked 25 extra offset up
 
   gcube limg(800, 640, 3, gfill::zeros);
   gcube rimg(800, 640, 3, gfill::zeros);
   gcube combined(800, 1280, 3, gfill::zeros);
+
 #endif
 
   double offset = 0.15;
@@ -122,7 +132,13 @@ int main(int argc, const char *argv[]) {
     subplace(rimg, resized, -crop, yoffset);
 
     combined = ovr_image(limg, rimg, offset);
+
+#if DK2
+    dk2_rotate(rotation, combined);
+    cv::Mat out = rotation.cv_img();
+#else
     cv::Mat out = combined.cv_img();
+#endif
     cv::imshow("hud", out);
     if (cv::waitKey(30) >= 0) {
       continue;
@@ -153,7 +169,7 @@ void preprocessSHM(int *img, gcube &bgr) {
   dim3 blockSize(16, 16, 1);
   dim3 gridSize((bgr.n_rows-1)/16+1, (bgr.n_cols-1)/16+1, 1); // range restricted, adds back excess for calculation
 #if DK2
-  size_t OVRCOLS = 1920;
+  size_t OVRCOLS = 1072;
 #else
   size_t OVRCOLS = 1280;
 #endif
@@ -176,5 +192,23 @@ void subplace(gcube &subimage, gcube &orig, int left, int top) {
   dim3 blockSize(16, 16, 1);
   dim3 gridSize((orig.n_rows-1)/16+1, (orig.n_cols-1)/16+1, 1);
   GPU_subplace<<<gridSize, blockSize>>>(subimage.d_pixels, orig.d_pixels, left, top, subimage.n_cols, subimage.n_rows, orig.n_cols, orig.n_rows);
+  checkCudaErrors(cudaGetLastError());
+}
+
+__global__ void GPU_dk2rotate(float *dst, float *src, int n_rows, int n_cols) {
+  int i = blockIdx.x * blockDim.x + threadIdx.x;
+  int j = blockIdx.y * blockDim.y + threadIdx.y;
+  if (i >= n_rows || j >= n_cols) {
+    return;
+  }
+  dst[IJK2C(i, j, 0, n_rows, n_cols)] = src[IJK2C(j, n_rows-i-1, 0, n_cols, n_rows)];
+  dst[IJK2C(i, j, 1, n_rows, n_cols)] = src[IJK2C(j, n_rows-i-1, 1, n_cols, n_rows)];
+  dst[IJK2C(i, j, 2, n_rows, n_cols)] = src[IJK2C(j, n_rows-i-1, 2, n_cols, n_rows)];
+}
+
+void dk2_rotate(gcube &dst, gcube &src) {
+  dim3 blockSize(16, 16, 1);
+  dim3 gridSize((dst.n_rows-1)/16+1, (dst.n_cols-1)/16+1, 1);
+  GPU_dk2rotate<<<gridSize, blockSize>>>(dst.d_pixels, src.d_pixels, dst.n_rows, dst.n_cols);
   checkCudaErrors(cudaGetLastError());
 }
