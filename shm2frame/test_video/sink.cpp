@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
   /** DO STUFF HERE **/
 
-  Mat img(data->width, data->height, CV_8UC3);
+  Mat img(data->width, data->height, CV_8UC4);
   namedWindow("sink_test", CV_WINDOW_AUTOSIZE);
 
   while (true) {

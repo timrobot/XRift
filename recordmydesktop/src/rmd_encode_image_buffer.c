@@ -24,6 +24,7 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
+
 #include "config.h"
 #include "rmd_encode_image_buffer.h"
 
@@ -31,8 +32,8 @@
 
 #include <errno.h>
 
-
 void *rmdEncodeImageBuffer(ProgData *pdata){
+
     pdata->th_encoding_clean=0;
     while(pdata->running){
         pdata->th_enc_thread_waiting=1;
@@ -47,9 +48,12 @@ void *rmdEncodeImageBuffer(ProgData *pdata){
             pthread_cond_wait(&pdata->pause_cond, &pdata->pause_mutex);
             pthread_mutex_unlock(&pdata->pause_mutex);
         }
-        pthread_mutex_lock(&pdata->yuv_mutex);
-        printf("Got encode image buf\n");
-        pthread_mutex_unlock(&pdata->yuv_mutex);
+        //pthread_mutex_lock(&pdata->yuv_mutex);
+        //memcpy(data->data, fauxdata, 1600*900 * 4);   /** IMPORTANT **/
+        //pthread_mutex_unlock(&pdata->yuv_mutex);
+        //printf("UNLOCKED\n");
+        //printf("Got encode image buf\n");
+        //pthread_mutex_unlock(&pdata->yuv_mutex);
 
         /*if(theora_encode_YUVin(&pdata->enc_data->m_th_st,
                                &pdata->enc_data->yuv)){
@@ -69,6 +73,8 @@ void *rmdEncodeImageBuffer(ProgData *pdata){
         }*/
         pdata->encoder_busy = FALSE;
     }
+  
+
     //last packet
     pdata->th_encoding_clean=1;
     pthread_mutex_lock(&pdata->theora_lib_mutex);
