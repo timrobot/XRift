@@ -92,7 +92,7 @@ int main(int argc, const char *argv[]) {
   size_t subimage_width = new_width - crop;
   size_t subimage_height = new_height;
   size_t xoffset = 960 - subimage_width;
-  size_t yoffset = 540 - (subimage_height / 2) - 25;
+  size_t yoffset = 540 - (subimage_height / 2) - 35;
 
   gcube limg(1080, 960, 3, gfill::zeros);
   gcube rimg(1080, 960, 3, gfill::zeros);
@@ -107,7 +107,7 @@ int main(int argc, const char *argv[]) {
   size_t subimage_width = new_width - crop;
   size_t subimage_height = new_height;
   size_t xoffset = 640 - subimage_width;
-  size_t yoffset = 400 - (subimage_height / 2) - 25; // hacked 25 extra offset up
+  size_t yoffset = 400 - (subimage_height / 2) - 35; // hacked 25 extra offset up
 
   gcube limg(800, 640, 3, gfill::zeros);
   gcube rimg(800, 640, 3, gfill::zeros);
