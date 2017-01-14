@@ -7,4 +7,4 @@ TODO:
 - [x] shared mem from record my desktop
 - [x] shared mem to a test program
 - [x] image slicing
-- [ ] UI
+- [x] UI
